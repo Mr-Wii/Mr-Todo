@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react'
 import Select from 'react-select'
-import './styles.css'
 
 const options = [
   { value: 'Work', label: 'Work' },
@@ -13,17 +12,17 @@ let wiiwo
 let deadlineu
 let seL
 
-const Todos = ({ todos, deleteTodo, changeEdit, updateEdit }) => {
+const Todos = ({ todos, deleteTodo, changeEdit, updateEdit, checkChangeu }) => {
   const todoList = todos.length ? (
     todos.map(todo => {
       return todo.isInEdit ? (
         <div key={todo.id}>
           <input
+            type="text"
+            defaultValue={todo.content}
             onChange={evt => {
               wiiwo = evt.target.value
             }}
-            type="text"
-            defaultValue={todo.content}
           />
           <input
             type="date"
@@ -57,7 +56,14 @@ const Todos = ({ todos, deleteTodo, changeEdit, updateEdit }) => {
         </div>
       ) : (
         <div key={todo.id}>
-          <span>{todo.content}</span>
+          <label id="lord">
+            <input
+              type="checkbox"
+              onChange={() => checkChangeu(todo.id)}
+              checked={todo.isDone}
+            />
+            {todo.content}
+          </label>
           <button
             className="material-icons right"
             onClick={() => deleteTodo(todo.id)}

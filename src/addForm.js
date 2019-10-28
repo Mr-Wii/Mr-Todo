@@ -13,7 +13,8 @@ class AddTodo extends Component {
     isInEdit: false,
     category: null,
     deadline: '',
-    creationDate: ''
+    creationDate: '',
+    isDone: false
   }
 
   setDate = () => {
