@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Select from 'react-select'
+import { Form, FormControl, FormGroup, Button } from 'react-bootstrap'
 
 const options = [
   { value: 'Work', label: 'Work' },
@@ -61,28 +62,35 @@ class AddTodo extends Component {
   render() {
     return (
       <div>
-        <form onSubmit={this.handleSubmit}>
-          <label>Add new task</label>
-          <input
-            type="text"
-            onChange={this.handleChange}
-            value={this.state.content}
-            placeholder="Title"
-          />
-          <input
-            type="date"
-            placeholder="Deadline:"
-            onChange={this.deadLine}
-            value={this.state.deadline}
-          />
-          <Select
-            // value={this.state.category}
-            onChange={this.categoryChange}
-            options={options}
-            placeholder="Category"
-          />
-          <input type="submit" onClick={this.setDate} />
-        </form>
+        <Form onSubmit={this.handleSubmit}>
+          <FormGroup>
+            <FormControl
+              type="text"
+              placeholder="Task Title"
+              onChange={this.handleChange}
+              value={this.state.content}
+            />
+            <FormControl
+              type="date"
+              placeholder="Deadline"
+              onChange={this.deadLine}
+              value={this.state.deadline}
+            />
+            <Select
+              // value={this.state.category}
+              onChange={this.categoryChange}
+              options={options}
+              placeholder="Category"
+            />
+          </FormGroup>
+          <Button
+            variant="primary"
+            type="submit"
+            onClick={(this.setDate, this.props.togguru)}
+          >
+            Add the Task
+          </Button>
+        </Form>
       </div>
     )
   }

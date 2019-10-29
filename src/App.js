@@ -1,8 +1,11 @@
-import React, { Component } from 'react'
+import React, { Component, useState } from 'react'
 import Todos from './Todos'
 import AddTodo from './addForm'
 import uuid from 'react-uuid'
 import SortTodo from './sortTodo'
+import ModalExample from './modalEx'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import { Navbar, Nav, Form } from 'react-bootstrap'
 
 class App extends Component {
   state = {
@@ -113,37 +116,45 @@ class App extends Component {
     this.setState({
       todos
     })
-    // const donezos = this.state.todos.map(todo => {
-    //   return todo.isDone
-    // })
-    // if (donezos === true) {
-    //   console.log(donezos)
-    // }
-
-    // document.getElementById('lord').style.textDecoration = 'line-through'
   }
+
   componentWillMount = () => {
     this.setState({ filteredTodos: this.state.todos })
   }
 
   render() {
-    console.log(this.state)
     return (
-      <div className="wiicontainer">
-        <img src={require('./bg.png')} alt="DoYourWork" />
-        <div id="todoS">
-          <h1 className="center blue-text">Mr Todo</h1>
-          <SortTodo todos={this.state.todos} filterState={this.filterState} />
-          <br />
-          <Todos
-            todos={this.state.filteredTodos}
-            deleteTodo={this.deleteTodo}
-            changeEdit={this.changeEdit}
-            updateEdit={this.updateEdit}
-            checkChangeu={this.handleCheckClick}
-          />
-          <br />
-          <AddTodo addTodo={this.addTodo} />
+      <div>
+        <div>
+          <Navbar>
+            <Navbar.Brand href="#home">Mr Todo</Navbar.Brand>
+            <Nav className="mr-auto">
+              <Nav.Link href="#home">Categories</Nav.Link>
+              <Nav.Link href="#features">Log out</Nav.Link>
+              <Nav.Link href="#pricing">About</Nav.Link>
+            </Nav>
+            <Form inline>
+              <SortTodo
+                todos={this.state.todos}
+                filterState={this.filterState}
+              />
+            </Form>
+          </Navbar>
+        </div>
+        <div className="wiicontainer">
+          <img src={require('./bg.png')} alt="DoYourWork" />
+          <div id="todoS">
+            <br />
+            <Todos
+              todos={this.state.filteredTodos}
+              deleteTodo={this.deleteTodo}
+              changeEdit={this.changeEdit}
+              updateEdit={this.updateEdit}
+              checkChangeu={this.handleCheckClick}
+            />
+            <br />
+            <ModalExample modalTodo={this.addTodo} />
+          </div>
         </div>
       </div>
     )

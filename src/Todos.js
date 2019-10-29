@@ -2,6 +2,8 @@
 import React from 'react'
 import Select from 'react-select'
 
+import { ListGroup, ListGroupItem, Form } from 'react-bootstrap'
+
 const options = [
   { value: 'Work', label: 'Work' },
   { value: 'Personal', label: 'Personal' },
@@ -55,27 +57,34 @@ const Todos = ({ todos, deleteTodo, changeEdit, updateEdit, checkChangeu }) => {
           </button>
         </div>
       ) : (
-        <div key={todo.id}>
-          <label id="lord">
-            <input
-              type="checkbox"
-              onChange={() => checkChangeu(todo.id)}
-              checked={todo.isDone}
-            />
-            {todo.content}
-          </label>
-          <button
-            className="material-icons right"
-            onClick={() => deleteTodo(todo.id)}
+        <div className="shadow-drop-2-bottom" key={todo.id}>
+          <ListGroup
+            className="shadow p-3 mb-2 bg-white rounded"
+            variant="flush"
           >
-            delete
-          </button>
-          <button
-            onClick={() => changeEdit(todo.id)}
-            className="material-icons right"
-          >
-            edit
-          </button>
+            <ListGroupItem id="lord">
+              <Form.Check
+                inline
+                type="checkbox"
+                onChange={() => checkChangeu(todo.id)}
+                checked={todo.isDone}
+              ></Form.Check>
+              {todo.content}
+
+              <i
+                class="fas fa-eraser float-right"
+                variant="outline-dark"
+                size="sm"
+                onClick={() => deleteTodo(todo.id)}
+              />
+              <i
+                class="fas fa-edit float-right"
+                variant="outline-dark"
+                size="sm"
+                onClick={() => changeEdit(todo.id)}
+              />
+            </ListGroupItem>
+          </ListGroup>
         </div>
       )
     })
