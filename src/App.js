@@ -1,11 +1,11 @@
-import React, { Component, useState } from 'react'
+import React, { Component } from 'react'
 import Todos from './Todos'
-import AddTodo from './addForm'
 import uuid from 'react-uuid'
 import SortTodo from './sortTodo'
 import ModalExample from './modalEx'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Navbar, Nav, Form } from 'react-bootstrap'
+import ModalExample1 from './categories'
 
 class App extends Component {
   state = {
@@ -47,7 +47,19 @@ class App extends Component {
         isDone: false
       }
     ],
-    filteredTodos: []
+    filteredTodos: [],
+    currentPage: 1,
+    todosPerPage: 6,
+    render: false,
+    options: [
+      { value: 'Work', label: 'Work', id: 0 },
+      { value: 'Personal', label: 'Personal', id: 1 },
+      { value: 'Other', label: 'Other', id: 2 }
+    ]
+  }
+
+  add = () => {
+    this.setState({ render: !this.state.render })
   }
 
   filterState = varue => {
@@ -74,8 +86,7 @@ class App extends Component {
   }
 
   addTodo = todo => {
-    todo.id = uuid()
-    let todos = [...this.state.todos, todo]
+    let todos = todo
     this.setState({
       filteredTodos: todos,
       todos: todos
@@ -118,21 +129,26 @@ class App extends Component {
     })
   }
 
-  componentWillMount = () => {
+  UNSAFE_componentWillMount = () => {
     this.setState({ filteredTodos: this.state.todos })
   }
-
   render() {
     return (
       <div>
         <div>
           <Navbar>
-            <Navbar.Brand href="#home">Mr Todo</Navbar.Brand>
-            <Nav className="mr-auto">
-              <Nav.Link href="#home">Categories</Nav.Link>
-              <Nav.Link href="#features">Log out</Nav.Link>
-              <Nav.Link href="#pricing">About</Nav.Link>
+            <Navbar.Brand href="/home">Mr Todo</Navbar.Brand>
+            <Nav fill variant="tabs" className="mr-auto">
+              <Nav.Link onClick={() => this.add()}>Categories</Nav.Link>
+              {this.state.render && <ModalExample1 statt={this.state} />}
+              <Nav.Link href="#logOut">Log out</Nav.Link>
+              <Nav.Link href="#About">About</Nav.Link>
             </Nav>
+            <ModalExample
+              modalTodo={this.addTodo}
+              todos={this.state.todos}
+              filterState={this.filterState}
+            />
             <Form inline>
               <SortTodo
                 todos={this.state.todos}
@@ -142,9 +158,12 @@ class App extends Component {
           </Navbar>
         </div>
         <div className="wiicontainer">
-          <img src={require('./bg.png')} alt="DoYourWork" />
+          <img
+            className="backuroundu"
+            src={require('./bg.png')}
+            alt="DoYourWork"
+          />
           <div id="todoS">
-            <br />
             <Todos
               todos={this.state.filteredTodos}
               deleteTodo={this.deleteTodo}
@@ -152,8 +171,6 @@ class App extends Component {
               updateEdit={this.updateEdit}
               checkChangeu={this.handleCheckClick}
             />
-            <br />
-            <ModalExample modalTodo={this.addTodo} />
           </div>
         </div>
       </div>

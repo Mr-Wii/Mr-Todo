@@ -1,14 +1,18 @@
 import React from 'react'
 
-const sortIt = ({ todos, filterState }) => {
+const sortIt = ({ filterState }) => {
   return (
     <div>
-      <input
-        type="text"
-        onChange={e => filterState(e.target.value)}
-        //   value={this.state.content}
-        placeholder="Search Todos"
-      />
+      <label htmlFor="inp" className="inp">
+        <input
+          id="inp"
+          type="text"
+          placeholder="&nbsp;"
+          onChange={e => filterState(e.target.value)}
+        />
+        <span className="label">Search Todos</span>
+        <span className="border"></span>
+      </label>
     </div>
   )
 }
