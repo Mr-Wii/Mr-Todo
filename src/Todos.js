@@ -2,9 +2,13 @@
 import React from 'react'
 import Select from 'react-select'
 import { InputGroup, InputGroupAddon, Input } from 'reactstrap'
-
-import { ListGroup, ListGroupItem, Form } from 'react-bootstrap'
-
+import {
+  ListGroup,
+  Form,
+  Accordion,
+  Card,
+  useAccordionToggle
+} from 'react-bootstrap'
 const options = [
   { value: 'Work', label: 'Work' },
   { value: 'Personal', label: 'Personal' },
@@ -18,6 +22,16 @@ let seL
 const Todos = ({ todos, deleteTodo, changeEdit, updateEdit, checkChangeu }) => {
   const todoList = todos.length ? (
     todos.map(todo => {
+      let contentu = todo.content
+      const deadlin = todo.deadline
+      const creationDateu = todo.creationDate
+      const cattt = todo.category
+      function CustomToggle({ children, eventKey }) {
+        const decoratedOnClick = useAccordionToggle(eventKey, () =>
+          console.log('shhhh ignore this D: !')
+        )
+        return <div onClick={decoratedOnClick}>{children}</div>
+      }
       return todo.isInEdit ? (
         <div key={todo.id}>
           <InputGroup>
@@ -62,34 +76,43 @@ const Todos = ({ todos, deleteTodo, changeEdit, updateEdit, checkChangeu }) => {
           />
         </div>
       ) : (
-        <div className="shadow-drop-2-bottom" key={todo.id}>
-          <ListGroup
-            style={{ margin: '0px' }}
-            className="shadow p-3 mb-2 bg-white rounded"
-            variant="flush"
-          >
-            <ListGroupItem id="lord">
-              <Form.Check
-                inline
-                type="checkbox"
-                onChange={() => checkChangeu(todo.id)}
-                checked={todo.isDone}
-              ></Form.Check>
-              {todo.content}
-              <i
-                className="fas fa-eraser float-right"
-                variant="outline-dark"
-                size="sm"
-                onClick={() => deleteTodo(todo.id)}
-              />
-              <i
-                className="fas fa-edit float-right"
-                variant="outline-dark"
-                size="sm"
-                onClick={() => changeEdit(todo.id)}
-              />
-            </ListGroupItem>
-          </ListGroup>
+        <div key={todo.id} className="shadow-drop-2-bottom">
+          <Accordion className="shadow p-3 mb-2 bg-white rounded">
+            <Card border="white">
+              <CustomToggle eventKey="0">
+                <ListGroup style={{ margin: '0px' }} variant="flush">
+                  <ListGroup.Item id="lord">
+                    <Form.Check
+                      inline
+                      type="checkbox"
+                      onChange={() => checkChangeu(todo.id)}
+                      checked={todo.isDone}
+                    ></Form.Check>
+                    {contentu}
+                    <i
+                      className="fas fa-eraser float-right"
+                      variant="outline-dark"
+                      size="sm"
+                      onClick={() => deleteTodo(todo.id)}
+                    />
+                    <i
+                      className="fas fa-edit float-right"
+                      variant="outline-dark"
+                      size="sm"
+                      onClick={() => changeEdit(todo.id)}
+                    />
+                  </ListGroup.Item>
+                </ListGroup>{' '}
+              </CustomToggle>
+              <Accordion.Collapse eventKey="0">
+                <Card.Body>
+                  <b>Deadline :</b> {deadlin} <br />
+                  <b>Creation date :</b> {creationDateu} <br />
+                  <b>Category :</b> {cattt}
+                </Card.Body>
+              </Accordion.Collapse>
+            </Card>
+          </Accordion>
         </div>
       )
     })

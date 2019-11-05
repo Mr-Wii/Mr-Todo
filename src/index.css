@@ -1,4 +1,10 @@
 body {
+  background-image: url(./bgFull.png);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-color: #464646;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -12,29 +18,20 @@ code {
     monospace;
 }
 
-.wiicontainer {
-  margin: auto;
-  width: 50%;
-  padding: 10px;
-}
-
-.shaddiv {
+/* .shaddiv {
   left: 50%;
   transform: translateX(-50%);
   position: relative;
   z-index: 5;
   margin-top: 20rem;
   text-align: center;
-}
+} */
 
 #todoS {
-  left: 50%;
-  transform: translateX(-50%);
-  width: 75%;
-  text-align: left;
-  position: relative;
-  z-index: 5;
-  margin-top: 14rem;
+  margin: 0 auto;
+  max-width: 520px;
+  height: 200px;
+  padding-top: 7.6rem;
 }
 
 .wowow {
@@ -42,17 +39,37 @@ code {
   height: auto;
 }
 
-.backuroundu {
-  position: absolute;
-  top: 0;
-  left: 36rem;
+.footer {
+  position: fixed;
+  left: 10%;
   bottom: 0;
-  z-index: 1;
-  width: 40%;
-  height: 97%;
+  width: 100%;
+  color: white;
+  text-align: left;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-input[type='date']:before {
+.shadow-drop-2-bottom {
+  cursor: pointer;
+}
+
+.footer a {
+  color: rgb(150, 92, 150);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.footer a:hover {
+  color: red;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* input[type='date']:before {
   content: attr(placeholder) !important;
   color: rgb(114, 114, 114);
   margin-right: 0.5em;
@@ -61,7 +78,7 @@ input[type='date']:before {
 input[type='date']:focus:before,
 input[type='date']:valid:before {
   content: '';
-}
+} */
 
 i {
   cursor: pointer;

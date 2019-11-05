@@ -41,14 +41,16 @@ class AddTodo extends Component {
     stateuu.unshift(newArr)
     this.setState(stateuu)
     this.props.addTodo(this.state)
+    this.props.togguru()
   }
 
   render() {
     return (
       <div>
-        <Form onSubmit={this.handleSubmit}>
+        <Form onSubmit={this.handleSubmit} data-toggle="validator">
           <FormGroup>
             <FormControl
+              required
               type="text"
               placeholder="Task Title"
               ref={el => (this.el = el)}
@@ -58,15 +60,16 @@ class AddTodo extends Component {
               type="date"
               placeholder="Deadline"
               ref={el1 => (this.el1 = el1)}
-              value={this.state.deadline}
+              defaultValue=""
             />
             <Select
               options={options}
               placeholder="Category"
               ref={el2 => (this.el2 = el2)}
+              defaultValue=""
             />
           </FormGroup>
-          <Button variant="primary" type="submit" onClick={this.props.togguru}>
+          <Button variant="primary" type="submit">
             Add New
           </Button>
         </Form>

@@ -14,8 +14,8 @@ class App extends Component {
         content: 'Finish the Todo App',
         isInEdit: false,
         id: uuid(),
-        deadline: 30 / 10 / 2019,
-        creationDate: 25 / 10 / 2019,
+        deadline: '30-10-2019',
+        creationDate: '25-10-2019',
         category: 'Work',
         isDone: true
       },
@@ -23,27 +23,9 @@ class App extends Component {
         content: 'Find lit salsa',
         isInEdit: false,
         id: uuid(),
-        deadline: 31 / 10 / 2019,
-        creationDate: 25 / 10 / 2019,
+        deadline: '31 / 10 / 2019',
+        creationDate: '25 / 10 / 2019',
         category: 'Personal',
-        isDone: false
-      },
-      {
-        content: 'go to gym',
-        isInEdit: false,
-        id: uuid(),
-        deadline: 30 / 10 / 2019,
-        creationDate: 25 / 10 / 2019,
-        category: 'Personal',
-        isDone: false
-      },
-      {
-        content: 'Finish the Todo App styling',
-        isInEdit: false,
-        id: uuid(),
-        deadline: 12 / 10 / 2019,
-        creationDate: 25 / 10 / 2019,
-        category: 'Work',
         isDone: false
       }
     ],
@@ -141,14 +123,13 @@ class App extends Component {
             <Nav fill variant="tabs" className="mr-auto">
               <Nav.Link onClick={() => this.add()}>Categories</Nav.Link>
               {this.state.render && <ModalExample1 statt={this.state} />}
-              <Nav.Link href="#logOut">Log out</Nav.Link>
-              <Nav.Link href="#About">About</Nav.Link>
+              <Nav.Link href="#logOut" disabled>
+                Log out
+              </Nav.Link>
+              <Nav.Link href="#About" disabled>
+                About
+              </Nav.Link>
             </Nav>
-            <ModalExample
-              modalTodo={this.addTodo}
-              todos={this.state.todos}
-              filterState={this.filterState}
-            />
             <Form inline>
               <SortTodo
                 todos={this.state.todos}
@@ -157,21 +138,27 @@ class App extends Component {
             </Form>
           </Navbar>
         </div>
-        <div className="wiicontainer">
-          <img
-            className="backuroundu"
-            src={require('./bg.png')}
-            alt="DoYourWork"
+        <div id="todoS">
+          <ModalExample
+            modalTodo={this.addTodo}
+            todos={this.state.todos}
+            filterState={this.filterState}
           />
-          <div id="todoS">
-            <Todos
-              todos={this.state.filteredTodos}
-              deleteTodo={this.deleteTodo}
-              changeEdit={this.changeEdit}
-              updateEdit={this.updateEdit}
-              checkChangeu={this.handleCheckClick}
-            />
-          </div>
+          <br />
+          <br />
+          <Todos
+            todos={this.state.filteredTodos}
+            deleteTodo={this.deleteTodo}
+            changeEdit={this.changeEdit}
+            updateEdit={this.updateEdit}
+            checkChangeu={this.handleCheckClick}
+          />
+        </div>
+        <div className="footer">
+          <p>
+            Made with &#128156; by{' '}
+            <a href="https://github.com/Mr-Wii/">Mr-Wii</a>
+          </p>
         </div>
       </div>
     )
