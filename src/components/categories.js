@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import {
   Form,
@@ -11,23 +11,29 @@ import uuid from 'react-uuid'
 
 const ModalExample1 = ({ statt }, props) => {
   const { className } = props
-  const [modal, setModal] = useState(true)
+  const [modal, setModal] = useState(false)
   const [nestedModal, setNestedModal] = useState(false)
-  const [closeAll, setCloseAll] = useState(false)
   const toggle = () => setModal(!modal)
   const toggleNested = () => {
     setNestedModal(!nestedModal)
-    setCloseAll(false)
   }
 
   let [options, setOptions] = useState(statt.options)
+  let [deOptions, setdeOptions] = useState(options)
 
-  const removeCat = id => {
-    const cats = options.filter(cat => {
-      return cat.id !== id
-    })
-    setOptions(cats)
+  const removeCat = ids => {
+    var index = null
+    for (var i = 0; i < deOptions.length; i++) {
+      if (deOptions[i].id === ids) {
+        index = i
+      }
+    }
+    deOptions.splice(index, 1)
+    setdeOptions(deOptions)
+    setOptions([...deOptions])
   }
+
+  useEffect(() => console.log(''), [options])
 
   let textInput = React.createRef()
 
@@ -36,7 +42,8 @@ const ModalExample1 = ({ statt }, props) => {
     const newCat = textInput.current.value
     const newArr = { value: newCat, label: newCat, id: uuid() }
     options.push(newArr)
-    setOptions(options)
+    setOptions([...options])
+    toggleNested()
   }
 
   const optionsList = options.map(op => {
@@ -59,9 +66,10 @@ const ModalExample1 = ({ statt }, props) => {
 
   return (
     <div>
+      <span onClick={toggle}>Categories</span>
       <Modal
         centered
-        size="lg"
+        size="md"
         isOpen={modal}
         toggle={toggle}
         className={className}
@@ -72,36 +80,33 @@ const ModalExample1 = ({ statt }, props) => {
           <Button color="success" onClick={toggleNested}>
             Add New
           </Button>
-          <Modal
-            isOpen={nestedModal}
-            toggle={toggleNested}
-            onClosed={closeAll ? toggle : undefined}
-          >
+          <Modal isOpen={nestedModal} toggle={toggleNested} centered>
             <ModalHeader>Add New Category</ModalHeader>
             <ModalBody>
               <Form onSubmit={e => handleSubmit(e)}>
                 <FormGroup>
                   <FormControl
+                    required
                     type="text"
                     placeholder="Category title"
                     ref={textInput}
                   />
                 </FormGroup>
-                <Button variant="primary" type="submit" onClick={toggleNested}>
+                <Button variant="primary" type="submit">
                   Add New
                 </Button>
               </Form>
             </ModalBody>
             <ModalFooter>
               <Button color="primary" onClick={toggleNested}>
-                Cancel
+                Close
               </Button>
             </ModalFooter>
           </Modal>
         </ModalBody>
         <ModalFooter>
           <Button color="secondary" onClick={toggle}>
-            Cancel
+            Close
           </Button>
         </ModalFooter>
       </Modal>

@@ -9,31 +9,38 @@ import {
   Card,
   useAccordionToggle
 } from 'react-bootstrap'
-const options = [
-  { value: 'Work', label: 'Work' },
-  { value: 'Personal', label: 'Personal' },
-  { value: 'Other', label: 'Other' }
-]
 
-let wiiwo
-let deadlineu
-let seL
+const Todos = ({
+  todos,
+  stata,
+  deleteTodo,
+  changeEdit,
+  updateEdit,
+  checkChangeu,
+  options
+}) => {
+  const indexOfLastTodo = stata.currentPage * stata.todosPerPage
+  const indexOfFirstTodo = indexOfLastTodo - stata.todosPerPage
+  const currentTodos = stata.filteredTodos.slice(
+    indexOfFirstTodo,
+    indexOfLastTodo
+  )
 
-const Todos = ({ todos, deleteTodo, changeEdit, updateEdit, checkChangeu }) => {
-  const todoList = todos.length ? (
-    todos.map(todo => {
+  const todoList = currentTodos.length ? (
+    currentTodos.map(todo => {
       let contentu = todo.content
       const deadlin = todo.deadline
       const creationDateu = todo.creationDate
       const cattt = todo.category
+      let wiiwo = todo.content
+      let deadlineu = todo.deadline
+      let seL = todo.category
       function CustomToggle({ children, eventKey }) {
-        const decoratedOnClick = useAccordionToggle(eventKey, () =>
-          console.log('shhhh ignore this D: !')
-        )
+        const decoratedOnClick = useAccordionToggle(eventKey, () => '')
         return <div onClick={decoratedOnClick}>{children}</div>
       }
       return todo.isInEdit ? (
-        <div key={todo.id}>
+        <div key={todo.id} className="shadow p-3 mb-2 bg-white rounded">
           <InputGroup>
             <InputGroupAddon addonType="prepend">Title </InputGroupAddon>
             <Input
@@ -51,10 +58,10 @@ const Todos = ({ todos, deleteTodo, changeEdit, updateEdit, checkChangeu }) => {
               onChange={evt => {
                 deadlineu = evt.target.value
               }}
-              defaultValue={todo.deadline}
             />
           </InputGroup>
           <Select
+            defaultInputValue={todo.category}
             defaultValue={todo.category}
             value={todo.category}
             onChange={evt => {
@@ -85,10 +92,14 @@ const Todos = ({ todos, deleteTodo, changeEdit, updateEdit, checkChangeu }) => {
                     <Form.Check
                       inline
                       type="checkbox"
-                      onChange={() => checkChangeu(todo.id)}
+                      onChange={() => {
+                        checkChangeu(todo.id)
+                      }}
                       checked={todo.isDone}
                     ></Form.Check>
-                    {contentu}
+                    <span className={todo.textDecor} id="lineT">
+                      {contentu}
+                    </span>
                     <i
                       className="fas fa-eraser float-right"
                       variant="outline-dark"
@@ -103,14 +114,14 @@ const Todos = ({ todos, deleteTodo, changeEdit, updateEdit, checkChangeu }) => {
                     />
                   </ListGroup.Item>
                 </ListGroup>{' '}
+                <Accordion.Collapse eventKey="0">
+                  <Card.Body>
+                    <b>Deadline :</b> {deadlin} <br />
+                    <b>Creation date :</b> {creationDateu} <br />
+                    <b>Category :</b> {cattt}
+                  </Card.Body>
+                </Accordion.Collapse>{' '}
               </CustomToggle>
-              <Accordion.Collapse eventKey="0">
-                <Card.Body>
-                  <b>Deadline :</b> {deadlin} <br />
-                  <b>Creation date :</b> {creationDateu} <br />
-                  <b>Category :</b> {cattt}
-                </Card.Body>
-              </Accordion.Collapse>
             </Card>
           </Accordion>
         </div>
@@ -118,7 +129,11 @@ const Todos = ({ todos, deleteTodo, changeEdit, updateEdit, checkChangeu }) => {
     })
   ) : (
     <div className="shaddiv">
-      <img className="wowow" src={require('./nothing.png')} alt="empty" />
+      <img
+        className="wowow"
+        src={require('../assets/images/nothing.png')}
+        alt="empty"
+      />
       <h1 style={{ color: 'purple' }}>Could not find any todos :(</h1>
     </div>
   )

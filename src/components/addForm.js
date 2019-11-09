@@ -3,14 +3,8 @@ import Select from 'react-select'
 import { Form, FormControl, FormGroup, Button } from 'react-bootstrap'
 import uuid from 'react-uuid'
 
-const options = [
-  { value: 'Work', label: 'Work' },
-  { value: 'Personal', label: 'Personal' },
-  { value: 'Other', label: 'Other' }
-]
-
 class AddTodo extends Component {
-  state = this.props.todos
+  state = [...this.props.todos]
 
   setDate = () => {
     const d = new Date(),
@@ -34,7 +28,8 @@ class AddTodo extends Component {
       deadline: dt,
       creationDate: ewe,
       category: catg,
-      isDone: false
+      isDone: false,
+      textDecor: null
     }
 
     const stateuu = this.state
@@ -63,7 +58,8 @@ class AddTodo extends Component {
               defaultValue=""
             />
             <Select
-              options={options}
+              hasValue={true}
+              options={this.props.optionsu}
               placeholder="Category"
               ref={el2 => (this.el2 = el2)}
               defaultValue=""

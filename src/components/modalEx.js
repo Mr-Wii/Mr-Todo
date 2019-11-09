@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import AddTodo from './addForm'
 
-const ModalExample = ({ modalTodo, todos, filterState }, props) => {
+const ModalExample = ({ modalTodo, statuu, filterState }, props) => {
   const { className } = props
 
   const [modal, setModal] = useState(false)
@@ -14,14 +14,14 @@ const ModalExample = ({ modalTodo, todos, filterState }, props) => {
       <Button
         outline
         color="secondary"
-        className="wobble-hor-bottom"
+        className="pulsate-fwd"
         onClick={toggle}
       >
         Add Task <i className="far fa-plus-square"></i>
       </Button>
       <Modal
         centered
-        size="lg"
+        size="md"
         isOpen={modal}
         toggle={toggle}
         className={className}
@@ -31,13 +31,14 @@ const ModalExample = ({ modalTodo, todos, filterState }, props) => {
           <AddTodo
             addTodo={modalTodo}
             togguru={toggle}
-            todos={todos}
+            todos={statuu.todos}
+            optionsu={statuu.options}
             filtodos={filterState}
           />
         </ModalBody>
         <ModalFooter>
           <Button color="secondary" onClick={toggle}>
-            Cancel
+            Close
           </Button>
         </ModalFooter>
       </Modal>

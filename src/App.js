@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
-import Todos from './Todos'
+import Todos from './components/Todos'
 import uuid from 'react-uuid'
-import SortTodo from './sortTodo'
-import ModalExample from './modalEx'
+import SortTodo from './components/sortTodo'
+import ModalExample from './components/modalEx'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Navbar, Nav, Form } from 'react-bootstrap'
-import ModalExample1 from './categories'
+import ModalExample1 from './components/categories'
 
 class App extends Component {
   state = {
@@ -14,34 +14,38 @@ class App extends Component {
         content: 'Finish the Todo App',
         isInEdit: false,
         id: uuid(),
-        deadline: '30-10-2019',
-        creationDate: '25-10-2019',
+        deadline: '2019-12-5',
+        creationDate: '11/9/2019 15:9:34',
         category: 'Work',
-        isDone: true
+        isDone: false,
+        textDecor: null
       },
       {
         content: 'Find lit salsa',
         isInEdit: false,
         id: uuid(),
-        deadline: '31 / 10 / 2019',
-        creationDate: '25 / 10 / 2019',
+        deadline: '2019-12-3',
+        creationDate: '11/9/2019 15:9:34',
         category: 'Personal',
-        isDone: false
+        isDone: false,
+        textDecor: null
       }
     ],
     filteredTodos: [],
-    currentPage: 1,
-    todosPerPage: 6,
-    render: false,
     options: [
-      { value: 'Work', label: 'Work', id: 0 },
-      { value: 'Personal', label: 'Personal', id: 1 },
-      { value: 'Other', label: 'Other', id: 2 }
-    ]
+      { value: 'Work', label: 'Work', id: uuid() },
+      { value: 'Personal', label: 'Personal', id: uuid() },
+      { value: 'Other', label: 'Other', id: uuid() }
+    ],
+    filteredOptions: [],
+    currentPage: 1,
+    todosPerPage: 5
   }
 
-  add = () => {
-    this.setState({ render: !this.state.render })
+  handleClick = event => {
+    this.setState({
+      currentPage: Number(event.target.id)
+    })
   }
 
   filterState = varue => {
@@ -104,25 +108,51 @@ class App extends Component {
     const uniqueT = this.state.todos.find(todo => {
       return todo.id === id
     })
-    uniqueT.isDone = !uniqueT.isDone
+
     let todos = [...this.state.todos]
-    this.setState({
-      todos
-    })
+    uniqueT.isDone = !uniqueT.isDone
+    if (uniqueT.isDone) {
+      uniqueT.textDecor = 'strike'
+      this.setState({
+        todos
+      })
+    } else {
+      uniqueT.textDecor = null
+      this.setState({
+        todos
+      })
+    }
   }
 
   UNSAFE_componentWillMount = () => {
     this.setState({ filteredTodos: this.state.todos })
   }
+
   render() {
+    const pageNumbers = []
+    for (
+      let i = 1;
+      i <= Math.ceil(this.state.filteredTodos.length / this.state.todosPerPage);
+      i++
+    ) {
+      pageNumbers.push(i)
+    }
+    const renderPageNumbers = pageNumbers.map(number => {
+      return (
+        <li key={number} id={number} onClick={this.handleClick} className="">
+          {number}
+        </li>
+      )
+    })
     return (
       <div>
-        <div>
+        <div className="containerS">
           <Navbar>
             <Navbar.Brand href="/home">Mr Todo</Navbar.Brand>
             <Nav fill variant="tabs" className="mr-auto">
-              <Nav.Link onClick={() => this.add()}>Categories</Nav.Link>
-              {this.state.render && <ModalExample1 statt={this.state} />}
+              <Nav.Link>
+                <ModalExample1 statt={this.state} />
+              </Nav.Link>
               <Nav.Link href="#logOut" disabled>
                 Log out
               </Nav.Link>
@@ -137,28 +167,38 @@ class App extends Component {
               />
             </Form>
           </Navbar>
-        </div>
-        <div id="todoS">
-          <ModalExample
-            modalTodo={this.addTodo}
-            todos={this.state.todos}
-            filterState={this.filterState}
-          />
-          <br />
-          <br />
-          <Todos
-            todos={this.state.filteredTodos}
-            deleteTodo={this.deleteTodo}
-            changeEdit={this.changeEdit}
-            updateEdit={this.updateEdit}
-            checkChangeu={this.handleCheckClick}
-          />
-        </div>
-        <div className="footer">
-          <p>
-            Made with &#128156; by{' '}
-            <a href="https://github.com/Mr-Wii/">Mr-Wii</a>
-          </p>
+          <div className="todoS">
+            <ModalExample
+              modalTodo={this.addTodo}
+              statuu={this.state}
+              filterState={this.filterState}
+            />
+            <br />
+            <br />
+            <Todos
+              className="todosu"
+              stata={this.state}
+              todos={this.state.filteredTodos}
+              options={this.state.options}
+              deleteTodo={this.deleteTodo}
+              changeEdit={this.changeEdit}
+              updateEdit={this.updateEdit}
+              checkChangeu={this.handleCheckClick}
+            />
+            <div className="flex">
+              {' '}
+              <ul id="page-numbers">{renderPageNumbers}</ul>
+            </div>
+          </div>
+          <div className="footer">
+            <p>
+              Made with{' '}
+              <span role="img" aria-label="heart">
+                &#128156;
+              </span>{' '}
+              by <a href="https://github.com/Mr-Wii/">Mr-Wii</a>
+            </p>
+          </div>
         </div>
       </div>
     )
