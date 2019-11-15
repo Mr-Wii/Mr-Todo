@@ -4,8 +4,9 @@ import uuid from 'react-uuid'
 import SortTodo from './components/sortTodo'
 import ModalExample from './components/modalEx'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { Navbar, Nav, Form } from 'react-bootstrap'
+import { Navbar, Nav, Form, Image } from 'react-bootstrap'
 import ModalExample1 from './components/categories'
+import logo from './assets/images/logo.png'
 
 class App extends Component {
   state = {
@@ -37,7 +38,6 @@ class App extends Component {
       { value: 'Personal', label: 'Personal', id: uuid() },
       { value: 'Other', label: 'Other', id: uuid() }
     ],
-    filteredOptions: [],
     currentPage: 1,
     todosPerPage: 5
   }
@@ -139,33 +139,48 @@ class App extends Component {
     }
     const renderPageNumbers = pageNumbers.map(number => {
       return (
-        <li key={number} id={number} onClick={this.handleClick} className="">
-          {number}
+        <li className="current">
+          <a
+            href="javascript:void(0)"
+            key={number}
+            id={number}
+            onClick={this.handleClick}
+          >
+            {number}
+          </a>
         </li>
       )
     })
+
     return (
-      <div>
-        <div className="containerS">
-          <Navbar>
-            <Navbar.Brand href="/home">Mr Todo</Navbar.Brand>
-            <Nav fill variant="tabs" className="mr-auto">
-              <Nav.Link>
-                <ModalExample1 statt={this.state} />
-              </Nav.Link>
-              <Nav.Link href="#logOut" disabled>
-                Log out
-              </Nav.Link>
-              <Nav.Link href="#About" disabled>
-                About
-              </Nav.Link>
-            </Nav>
-            <Form inline>
-              <SortTodo
-                todos={this.state.todos}
-                filterState={this.filterState}
-              />
-            </Form>
+      <div id="page-container">
+        <div id="content-wrap">
+          <Navbar sticky="top" collapseOnSelect expand="sm" bg="white">
+            <Navbar.Brand as="a" href="/home">
+              <Image src={logo} className="rotate-90-right-cw" />
+            </Navbar.Brand>{' '}
+            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+            <Navbar.Collapse id="responsive-navbar-nav">
+              <Nav fill variant="tabs" id="toppu" className="mr-auto">
+                <Nav.Link>
+                  <ModalExample1 statt={this.state} />
+                </Nav.Link>
+                <Nav.Link href="#logOut" disabled>
+                  Log out
+                </Nav.Link>
+                <Nav.Link href="#About" disabled>
+                  About
+                </Nav.Link>
+              </Nav>
+              <Nav>
+                <Form inline>
+                  <SortTodo
+                    todos={this.state.todos}
+                    filterState={this.filterState}
+                  />
+                </Form>
+              </Nav>
+            </Navbar.Collapse>
           </Navbar>
           <div className="todoS">
             <ModalExample
@@ -173,7 +188,6 @@ class App extends Component {
               statuu={this.state}
               filterState={this.filterState}
             />
-            <br />
             <br />
             <Todos
               className="todosu"
@@ -185,21 +199,20 @@ class App extends Component {
               updateEdit={this.updateEdit}
               checkChangeu={this.handleCheckClick}
             />
-            <div className="flex">
-              {' '}
+            <div data-pagination>
               <ul id="page-numbers">{renderPageNumbers}</ul>
             </div>
           </div>
-          <div className="footer">
-            <p>
-              Made with{' '}
-              <span role="img" aria-label="heart">
-                &#128156;
-              </span>{' '}
-              by <a href="https://github.com/Mr-Wii/">Mr-Wii</a>
-            </p>
-          </div>
         </div>
+        <footer id="footer">
+          <p>
+            Made with{' '}
+            <span role="img" aria-label="heart">
+              &#128156;
+            </span>{' '}
+            by <a href="https://github.com/Mr-Wii/">Mr-Wii</a>
+          </p>
+        </footer>
       </div>
     )
   }

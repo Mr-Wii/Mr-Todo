@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react'
 import Select from 'react-select'
-import { InputGroup, InputGroupAddon, Input } from 'reactstrap'
+import { Button, InputGroup, InputGroupAddon, Input } from 'reactstrap'
 import {
   ListGroup,
   Form,
@@ -40,55 +40,66 @@ const Todos = ({
         return <div onClick={decoratedOnClick}>{children}</div>
       }
       return todo.isInEdit ? (
-        <div key={todo.id} className="shadow p-3 mb-2 bg-white rounded">
-          <InputGroup>
-            <InputGroupAddon addonType="prepend">Title </InputGroupAddon>
-            <Input
-              defaultValue={todo.content}
+        <div key={todo.id} className="editeu">
+          <div className="groupInt">
+            <InputGroup>
+              <InputGroupAddon addonType="prepend">Title </InputGroupAddon>
+              <Input
+                defaultValue={todo.content}
+                onChange={evt => {
+                  wiiwo = evt.target.value
+                }}
+              />
+            </InputGroup>
+            <InputGroup>
+              <InputGroupAddon addonType="prepend">Deadline</InputGroupAddon>
+              <Input
+                type="date"
+                placeholder="Deadline:"
+                onChange={evt => {
+                  deadlineu = evt.target.value
+                }}
+              />
+            </InputGroup>
+            <Select
+              defaultInputValue={todo.category}
+              defaultValue={todo.category}
+              value={todo.category}
               onChange={evt => {
-                wiiwo = evt.target.value
+                seL = evt.value
               }}
+              options={options}
+              placeholder="Category"
             />
-          </InputGroup>
-          <InputGroup>
-            <InputGroupAddon addonType="prepend">Deadline</InputGroupAddon>
-            <Input
-              type="date"
-              placeholder="Deadline:"
-              onChange={evt => {
-                deadlineu = evt.target.value
-              }}
-            />
-          </InputGroup>
-          <Select
-            defaultInputValue={todo.category}
-            defaultValue={todo.category}
-            value={todo.category}
-            onChange={evt => {
-              seL = evt.value
-            }}
-            options={options}
-            placeholder="Category"
-          />
-
-          <i
-            className="fas fa-ban"
-            size="sm"
-            onClick={() => changeEdit(todo.id)}
-          />
-          <i
-            className="far fa-check-square"
-            size="sm"
-            onClick={() => updateEdit(todo.id, wiiwo, deadlineu, seL)}
-          />
+            <div id="canOk">
+              <Button
+                className="awos"
+                outline
+                color="danger"
+                onClick={() => changeEdit(todo.id)}
+              >
+                <i className="fas fa-times fa-lg fa-pull-left" />
+                <span>Cancel</span>
+              </Button>
+              <Button
+                className="awos"
+                outline
+                color="primary"
+                onClick={() => updateEdit(todo.id, wiiwo, deadlineu, seL)}
+              >
+                <i className="fas fa-check fa-lg  fa-pull-left" />
+                <span>Done</span>
+              </Button>
+            </div>
+          </div>
         </div>
       ) : (
-        <div key={todo.id} className="shadow-drop-2-bottom">
-          <Accordion className="shadow p-3 mb-2 bg-white rounded">
+        <div key={todo.id}>
+          <Accordion id="btnue" className="btnnu">
             <Card border="white">
               <CustomToggle eventKey="0">
                 <ListGroup style={{ margin: '0px' }} variant="flush">
-                  <ListGroup.Item id="lord">
+                  <ListGroup.Item>
                     <Form.Check
                       inline
                       type="checkbox"
@@ -101,15 +112,25 @@ const Todos = ({
                       {contentu}
                     </span>
                     <i
-                      className="fas fa-eraser float-right"
+                      className="fas fa-eraser float-right fa-lg"
                       variant="outline-dark"
-                      size="sm"
                       onClick={() => deleteTodo(todo.id)}
+                      style={{
+                        cursor: 'pointer',
+                        marginRight: '0',
+                        marginLeft: '0.7rem',
+                        color: 'rgba(33, 70, 134, 0.705)'
+                      }}
                     />
                     <i
-                      className="fas fa-edit float-right"
+                      className="fas fa-edit float-right fa-lg"
                       variant="outline-dark"
-                      size="sm"
+                      style={{
+                        cursor: 'pointer',
+                        marginRight: '0',
+                        marginLeft: '0.7rem',
+                        color: 'rgba(33, 70, 134, 0.705)'
+                      }}
                       onClick={() => changeEdit(todo.id)}
                     />
                   </ListGroup.Item>

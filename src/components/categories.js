@@ -49,7 +49,7 @@ const ModalExample1 = ({ statt }, props) => {
   const optionsList = options.map(op => {
     return (
       <div key={op.id}>
-        <ListGroup variant="flush">
+        <ListGroup>
           <ListGroupItem action variant="light" id="lord">
             {op.value}
             <i
@@ -77,11 +77,12 @@ const ModalExample1 = ({ statt }, props) => {
         <ModalHeader toggle={toggle}>Categories</ModalHeader>
         <ModalBody>
           {optionsList}
-          <Button color="success" onClick={toggleNested}>
-            Add New
+          <br />
+          <Button outline color="info" onClick={toggleNested}>
+            New Category
           </Button>
           <Modal isOpen={nestedModal} toggle={toggleNested} centered>
-            <ModalHeader>Add New Category</ModalHeader>
+            <ModalHeader>New Category</ModalHeader>
             <ModalBody>
               <Form onSubmit={e => handleSubmit(e)}>
                 <FormGroup>
@@ -92,13 +93,13 @@ const ModalExample1 = ({ statt }, props) => {
                     ref={textInput}
                   />
                 </FormGroup>
-                <Button variant="primary" type="submit">
-                  Add New
+                <Button outline color="info" type="submit">
+                  Add
                 </Button>
               </Form>
             </ModalBody>
             <ModalFooter>
-              <Button color="primary" onClick={toggleNested}>
+              <Button color="secondary" onClick={toggleNested}>
                 Close
               </Button>
             </ModalFooter>

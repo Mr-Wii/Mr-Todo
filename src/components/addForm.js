@@ -65,9 +65,12 @@ class AddTodo extends Component {
               defaultValue=""
             />
           </FormGroup>
-          <Button variant="primary" type="submit">
-            Add New
-          </Button>
+          <button id="addbtn" class="learn-more" type="submit">
+            <span class="circle">
+              <span class="icon arrow"></span>
+            </span>
+            <span class="button-text">Add</span>
+          </button>
         </Form>
       </div>
     )
