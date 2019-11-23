@@ -1,9 +1,9 @@
 # Mr Todo
 Live Demo
-https://inspiring-albattani-838de7.netlify.com/
+https://thirsty-dubinsky-de0f0a.netlify.com/
 
-A new stylish and fun way to keep track of your work.
+A Simple yet effective Todo App
 
 ## Getting started
 
-> Initial build (WIP)
+Make sure to configure Firebase credentials
