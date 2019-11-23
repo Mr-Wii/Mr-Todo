@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react'
-import Select from 'react-select'
-import { Button, InputGroup, InputGroupAddon, Input } from 'reactstrap'
+import { Button, InputGroup, Input } from 'reactstrap'
 import {
   ListGroup,
   Form,
@@ -10,15 +9,7 @@ import {
   useAccordionToggle
 } from 'react-bootstrap'
 
-const Todos = ({
-  todos,
-  stata,
-  deleteTodo,
-  changeEdit,
-  updateEdit,
-  checkChangeu,
-  options
-}) => {
+const Todos = ({ stata, deleteTodo, changeEdit, updateEdit, checkChangeu }) => {
   const indexOfLastTodo = stata.currentPage * stata.todosPerPage
   const indexOfFirstTodo = indexOfLastTodo - stata.todosPerPage
   const currentTodos = stata.filteredTodos.slice(
@@ -43,37 +34,36 @@ const Todos = ({
         <div key={todo.id} className="editeu">
           <div className="groupInt">
             <InputGroup>
-              <InputGroupAddon addonType="prepend">Title </InputGroupAddon>
               <Input
                 defaultValue={todo.content}
                 onChange={evt => {
                   wiiwo = evt.target.value
                 }}
+                style={{ marginBottom: '5px', borderRadius: '7px' }}
               />
             </InputGroup>
             <InputGroup>
-              <InputGroupAddon addonType="prepend">Deadline</InputGroupAddon>
               <Input
                 type="date"
                 placeholder="Deadline:"
                 onChange={evt => {
                   deadlineu = evt.target.value
                 }}
+                style={{ marginBottom: '5px', borderRadius: '7px' }}
               />
             </InputGroup>
-            <Select
-              defaultInputValue={todo.category}
-              defaultValue={todo.category}
-              value={todo.category}
-              onChange={evt => {
-                seL = evt.value
-              }}
-              options={options}
-              placeholder="Category"
-            />
+            <InputGroup>
+              <Input
+                defaultValue={todo.category}
+                onChange={evt => {
+                  seL = evt.target.value
+                }}
+                style={{ marginBottom: '5px', borderRadius: '7px' }}
+              />
+            </InputGroup>
             <div id="canOk">
               <Button
-                className="awos"
+                className="awos1"
                 outline
                 color="danger"
                 onClick={() => changeEdit(todo.id)}
@@ -82,7 +72,7 @@ const Todos = ({
                 <span>Cancel</span>
               </Button>
               <Button
-                className="awos"
+                className="awos2"
                 outline
                 color="primary"
                 onClick={() => updateEdit(todo.id, wiiwo, deadlineu, seL)}
@@ -94,7 +84,7 @@ const Todos = ({
           </div>
         </div>
       ) : (
-        <div key={todo.id}>
+        <div key={todo.id} className="Fade">
           <Accordion id="btnue" className="btnnu">
             <Card border="white">
               <CustomToggle eventKey="0">
@@ -150,12 +140,7 @@ const Todos = ({
     })
   ) : (
     <div className="shaddiv">
-      <img
-        className="wowow"
-        src={require('../assets/images/nothing.png')}
-        alt="empty"
-      />
-      <h1 style={{ color: 'purple' }}>Could not find any todos :(</h1>
+      <h1 style={{ color: 'purple' }}>Hmm weird... nothing here</h1>
     </div>
   )
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import Select from 'react-select'
-import { Form, FormControl, FormGroup, Button } from 'react-bootstrap'
+import { Form, FormControl, FormGroup } from 'react-bootstrap'
+import { Button } from 'reactstrap'
+
 import uuid from 'react-uuid'
 
 class AddTodo extends Component {
@@ -19,7 +20,7 @@ class AddTodo extends Component {
     e.preventDefault()
     const tit = this.el.value
     const dt = this.el1.value
-    const catg = this.el2.state.value.value
+    const catg = this.el2.value
     const ewe = this.setDate()
     const newArr = {
       content: tit,
@@ -50,27 +51,28 @@ class AddTodo extends Component {
               placeholder="Task Title"
               ref={el => (this.el = el)}
               value={this.state.content}
+              style={{ marginBottom: '4px' }}
             />
             <FormControl
+              required
               type="date"
               placeholder="Deadline"
               ref={el1 => (this.el1 = el1)}
               defaultValue=""
+              style={{ marginBottom: '4px' }}
             />
-            <Select
-              hasValue={true}
-              options={this.props.optionsu}
+            <FormControl
+              required
+              type="text"
               placeholder="Category"
               ref={el2 => (this.el2 = el2)}
-              defaultValue=""
+              value={this.state.category}
+              style={{ marginBottom: '4px' }}
             />
           </FormGroup>
-          <button id="addbtn" class="learn-more" type="submit">
-            <span class="circle">
-              <span class="icon arrow"></span>
-            </span>
-            <span class="button-text">Add</span>
-          </button>
+          <Button outline color="info" type="submit">
+            Add a new Todo
+          </Button>
         </Form>
       </div>
     )

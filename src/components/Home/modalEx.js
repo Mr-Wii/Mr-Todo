@@ -11,7 +11,7 @@ const ModalExample = ({ modalTodo, statuu, filterState }, props) => {
 
   return (
     <div>
-      <button id="btnu" class="btn-pill" onClick={toggle}>
+      <button id="btnu" className="btn-pill" onClick={toggle}>
         <span>Add Todo</span>
       </button>
       <Modal
