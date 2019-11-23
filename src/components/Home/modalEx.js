@@ -11,14 +11,9 @@ const ModalExample = ({ modalTodo, statuu, filterState }, props) => {
 
   return (
     <div>
-      <Button
-        outline
-        color="secondary"
-        className="pulsate-fwd"
-        onClick={toggle}
-      >
-        Add Task <i className="far fa-plus-square"></i>
-      </Button>
+      <button id="btnu" className="btn-pill" onClick={toggle}>
+        <span>Add Todo</span>
+      </button>
       <Modal
         centered
         size="md"
@@ -26,7 +21,7 @@ const ModalExample = ({ modalTodo, statuu, filterState }, props) => {
         toggle={toggle}
         className={className}
       >
-        <ModalHeader toggle={toggle}>Add a new task</ModalHeader>
+        <ModalHeader toggle={toggle}>New Todo</ModalHeader>
         <ModalBody>
           <AddTodo
             addTodo={modalTodo}

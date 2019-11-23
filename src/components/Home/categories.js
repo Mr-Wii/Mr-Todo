@@ -9,7 +9,7 @@ import {
 } from 'react-bootstrap'
 import uuid from 'react-uuid'
 
-const ModalExample1 = ({ statt }, props) => {
+const ModalExample1 = ({ statt, updateCats }, props) => {
   const { className } = props
   const [modal, setModal] = useState(false)
   const [nestedModal, setNestedModal] = useState(false)
@@ -19,37 +19,38 @@ const ModalExample1 = ({ statt }, props) => {
   }
 
   let [options, setOptions] = useState(statt.options)
-  let [deOptions, setdeOptions] = useState(options)
 
   const removeCat = ids => {
     var index = null
-    for (var i = 0; i < deOptions.length; i++) {
-      if (deOptions[i].id === ids) {
+    for (var i = 0; i < options.length; i++) {
+      if (options[i].id === ids) {
         index = i
       }
     }
-    deOptions.splice(index, 1)
-    setdeOptions(deOptions)
-    setOptions([...deOptions])
+    options.splice(index, 1)
+    statt.options = options
+    setOptions(statt.options)
+    update()
   }
 
   useEffect(() => console.log(''), [options])
 
   let textInput = React.createRef()
-
+  const update = () => updateCats()
   const handleSubmit = e => {
     e.preventDefault()
     const newCat = textInput.current.value
     const newArr = { value: newCat, label: newCat, id: uuid() }
-    options.push(newArr)
-    setOptions([...options])
+    statt.options.push(newArr)
+    setOptions(statt.options)
     toggleNested()
+    update()
   }
 
-  const optionsList = options.map(op => {
+  const optionsList = statt.options.map(op => {
     return (
       <div key={op.id}>
-        <ListGroup variant="flush">
+        <ListGroup>
           <ListGroupItem action variant="light" id="lord">
             {op.value}
             <i
@@ -77,13 +78,18 @@ const ModalExample1 = ({ statt }, props) => {
         <ModalHeader toggle={toggle}>Categories</ModalHeader>
         <ModalBody>
           {optionsList}
-          <Button color="success" onClick={toggleNested}>
-            Add New
+          <br />
+          <Button outline color="info" onClick={toggleNested}>
+            New Category
           </Button>
           <Modal isOpen={nestedModal} toggle={toggleNested} centered>
-            <ModalHeader>Add New Category</ModalHeader>
+            <ModalHeader>New Category</ModalHeader>
             <ModalBody>
-              <Form onSubmit={e => handleSubmit(e)}>
+              <Form
+                onSubmit={e => {
+                  handleSubmit(e)
+                }}
+              >
                 <FormGroup>
                   <FormControl
                     required
@@ -92,13 +98,13 @@ const ModalExample1 = ({ statt }, props) => {
                     ref={textInput}
                   />
                 </FormGroup>
-                <Button variant="primary" type="submit">
-                  Add New
+                <Button outline color="info" type="submit">
+                  Add
                 </Button>
               </Form>
             </ModalBody>
             <ModalFooter>
-              <Button color="primary" onClick={toggleNested}>
+              <Button color="secondary" onClick={toggleNested}>
                 Close
               </Button>
             </ModalFooter>

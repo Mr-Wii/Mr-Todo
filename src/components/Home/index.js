@@ -1,45 +1,49 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Component } from 'react'
-import Todos from './components/Todos'
-import uuid from 'react-uuid'
-import SortTodo from './components/sortTodo'
-import ModalExample from './components/modalEx'
+import Todos from './Todos'
+import SortTodo from './sortTodo'
+import ModalExample from './modalEx'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { Navbar, Nav, Form } from 'react-bootstrap'
-import ModalExample1 from './components/categories'
+import { Navbar, Nav, Form, Image } from 'react-bootstrap'
+import Account from './account'
+import logo from '../../assets/images/logo.png'
+import Firebase, { auth } from 'firebase'
+import { withAuthorization } from '../Session'
+import SignOutButton from '../SignOut'
+
+let userId
 
 class App extends Component {
   state = {
-    todos: [
-      {
-        content: 'Finish the Todo App',
-        isInEdit: false,
-        id: uuid(),
-        deadline: '2019-12-5',
-        creationDate: '11/9/2019 15:9:34',
-        category: 'Work',
-        isDone: false,
-        textDecor: null
-      },
-      {
-        content: 'Find lit salsa',
-        isInEdit: false,
-        id: uuid(),
-        deadline: '2019-12-3',
-        creationDate: '11/9/2019 15:9:34',
-        category: 'Personal',
-        isDone: false,
-        textDecor: null
-      }
-    ],
+    todos: [],
     filteredTodos: [],
-    options: [
-      { value: 'Work', label: 'Work', id: uuid() },
-      { value: 'Personal', label: 'Personal', id: uuid() },
-      { value: 'Other', label: 'Other', id: uuid() }
-    ],
-    filteredOptions: [],
     currentPage: 1,
     todosPerPage: 5
+  }
+
+  componentDidMount() {
+    userId = auth().currentUser.uid
+    this.getUserData()
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState !== this.state) {
+      this.writeUserData()
+    }
+  }
+
+  writeUserData = () => {
+    Firebase.database()
+      .ref('users/' + userId)
+      .set(this.state)
+  }
+
+  getUserData = () => {
+    let ref = Firebase.database().ref('users/' + userId)
+    ref.on('value', snapshot => {
+      const state = snapshot.val()
+      this.setState(state)
+    })
   }
 
   handleClick = event => {
@@ -86,7 +90,8 @@ class App extends Component {
     uniqueT.isInEdit = !uniqueT.isInEdit
     let todos = [...this.state.todos]
     this.setState({
-      todos
+      todos,
+      filteredTodos: this.state.todos
     })
   }
 
@@ -100,7 +105,8 @@ class App extends Component {
     uniqueT.category = seL
     let todos = [...this.state.todos]
     this.setState({
-      todos
+      todos,
+      filteredTodos: this.state.todos
     })
   }
 
@@ -114,12 +120,14 @@ class App extends Component {
     if (uniqueT.isDone) {
       uniqueT.textDecor = 'strike'
       this.setState({
-        todos
+        todos,
+        filteredTodos: this.state.todos
       })
     } else {
       uniqueT.textDecor = null
       this.setState({
-        todos
+        todos,
+        filteredTodos: this.state.todos
       })
     }
   }
@@ -139,33 +147,44 @@ class App extends Component {
     }
     const renderPageNumbers = pageNumbers.map(number => {
       return (
-        <li key={number} id={number} onClick={this.handleClick} className="">
-          {number}
+        <li className="current">
+          <a href="#" key={number} id={number} onClick={this.handleClick}>
+            {' '}
+            {number}
+          </a>
         </li>
       )
     })
+
     return (
-      <div>
-        <div className="containerS">
-          <Navbar>
-            <Navbar.Brand href="/home">Mr Todo</Navbar.Brand>
-            <Nav fill variant="tabs" className="mr-auto">
-              <Nav.Link>
-                <ModalExample1 statt={this.state} />
-              </Nav.Link>
-              <Nav.Link href="#logOut" disabled>
-                Log out
-              </Nav.Link>
-              <Nav.Link href="#About" disabled>
-                About
-              </Nav.Link>
-            </Nav>
-            <Form inline>
-              <SortTodo
-                todos={this.state.todos}
-                filterState={this.filterState}
-              />
-            </Form>
+      <div id="page-container Fade">
+        <div id="content-wrap">
+          <Navbar sticky="top" collapseOnSelect expand="sm" bg="white">
+            <Navbar.Brand as="a" href="/home">
+              <Image src={logo} className="rotate-90-right-cw" />
+            </Navbar.Brand>{' '}
+            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+            <Navbar.Collapse id="responsive-navbar-nav">
+              <Nav fill variant="tabs" id="toppu" className="mr-auto">
+                <Nav.Link>
+                  <Account />
+                </Nav.Link>
+                <Nav.Link>
+                  <SignOutButton />
+                </Nav.Link>
+                <Nav.Link href="#About" disabled>
+                  About
+                </Nav.Link>
+              </Nav>
+              <Nav>
+                <Form inline>
+                  <SortTodo
+                    todos={this.state.todos}
+                    filterState={this.filterState}
+                  />
+                </Form>
+              </Nav>
+            </Navbar.Collapse>
           </Navbar>
           <div className="todoS">
             <ModalExample
@@ -173,7 +192,6 @@ class App extends Component {
               statuu={this.state}
               filterState={this.filterState}
             />
-            <br />
             <br />
             <Todos
               className="todosu"
@@ -185,24 +203,24 @@ class App extends Component {
               updateEdit={this.updateEdit}
               checkChangeu={this.handleCheckClick}
             />
-            <div className="flex">
-              {' '}
+            <div data-pagination>
               <ul id="page-numbers">{renderPageNumbers}</ul>
             </div>
           </div>
-          <div className="footer">
-            <p>
-              Made with{' '}
-              <span role="img" aria-label="heart">
-                &#128156;
-              </span>{' '}
-              by <a href="https://github.com/Mr-Wii/">Mr-Wii</a>
-            </p>
-          </div>
         </div>
+        <footer id="footer">
+          <p>
+            Made with{' '}
+            <span role="img" aria-label="heart">
+              &#128156;
+            </span>{' '}
+            by <a href="https://github.com/Mr-Wii/">Mr-Wii</a>
+          </p>
+        </footer>
       </div>
     )
   }
 }
 
-export default App
+const condition = authUser => !!authUser
+export default withAuthorization(condition)(App)
