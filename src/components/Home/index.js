@@ -149,7 +149,6 @@ class App extends Component {
       return (
         <li className="current">
           <a href="#" key={number} id={number} onClick={this.handleClick}>
-            {' '}
             {number}
           </a>
         </li>

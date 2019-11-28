@@ -45,11 +45,11 @@ const Todos = ({ stata, deleteTodo, changeEdit, updateEdit, checkChangeu }) => {
             <InputGroup>
               <Input
                 type="date"
-                placeholder="Deadline:"
                 onChange={evt => {
                   deadlineu = evt.target.value
                 }}
                 style={{ marginBottom: '5px', borderRadius: '7px' }}
+                defaultValue={todo.deadline}
               />
             </InputGroup>
             <InputGroup>
@@ -65,7 +65,7 @@ const Todos = ({ stata, deleteTodo, changeEdit, updateEdit, checkChangeu }) => {
               <Button
                 className="awos1"
                 outline
-                color="danger"
+                color="secondary"
                 onClick={() => changeEdit(todo.id)}
               >
                 <i className="fas fa-times fa-lg fa-pull-left" />
